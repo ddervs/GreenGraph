@@ -1,5 +1,5 @@
-import numpy as np
 import geopy
+import numpy as np
 import Map
 
 class Greengraph(object):

@@ -1,10 +1,8 @@
-#!/usr/bin/env python
 from argparse import ArgumentParser
-from classes import Greengraph
-from matplotlib import pyplot as plt
+from greengrapher import greengraph
 
 
-if __name__ == "__main__":
+def process():
 
     parser = ArgumentParser(description="Plots amount of green space between two locations.")
     parser.add_argument('start', help='starting location, string')
@@ -13,11 +11,7 @@ if __name__ == "__main__":
     parser.add_argument('--out', help='output file, "*.png" or "*.pdf"', default=False)
     arguments = parser.parse_args()
 
-    mygraph = Greengraph.Greengraph(arguments.start, arguments.end)
-    data = mygraph.green_between(arguments.steps)
-    plt.plot(data)
-    if arguments.out:
-        plt.savefig(arguments.out)
-    else:
-        plt.show()
+    greengraph(arguments.start, arguments.end, arguments.steps, arguments.out)
 
+if __name__ == "__main__":
+    process()
