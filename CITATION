@@ -1,0 +1,14 @@
+To cite greengraph in publications, please use:
+
+D. Dervovic, GreenGraph, (2016), GitHub repository, https://github.com/ddervs/GreenGraph
+
+A BibTeX entry for LaTeX users is
+
+@misc{Dervovic2016,
+  author = {Dervovic, D.},
+  title = {GreenGraph},
+  year = {2016},
+  publisher = {GitHub},
+  journal = {GitHub repository},
+  howpublished = {\url{https://github.com/ddervs/GreenGraph}},
+}
