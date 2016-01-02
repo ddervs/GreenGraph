@@ -5,12 +5,12 @@ from unittest import TestCase
 class TestGreengraph(TestCase):
 
     @classmethod
-    def setup_class(cls):
+    def setuUpClass(cls):
         """This method is run once for each class before any tests are run"""
         pass
 
     @classmethod
-    def teardown_class(cls):
+    def tearDownClass(cls):
         """This method is run once for each class _after_ all tests are run"""
         pass
 

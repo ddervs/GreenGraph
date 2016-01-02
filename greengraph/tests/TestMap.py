@@ -17,7 +17,7 @@ class TestMap(TestCase):
                 cls.mock_map = Map(51.0, 1.0)
 
     @classmethod
-    def teardown_class(cls):
+    def tearDownClass(cls):
         """This method is run once for each class _after_ all tests are run"""
         pass
 
