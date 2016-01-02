@@ -4,14 +4,17 @@ from matplotlib import image as img
 import mock
 import StringIO
 from unittest import TestCase
+import numpy as np
 
 
 class TestMap(TestCase):
 
     @classmethod
-    def setup_class(cls):
+    def setUpClass(cls):
         """This method is run once for each class before any tests are run"""
-        pass
+        with mock.patch.object(requests, 'get') as mock_get:
+            with mock.patch.object(img, 'imread') as mock_imread:
+                cls.mock_map = Map(51.0, 1.0)
 
     @classmethod
     def teardown_class(cls):
@@ -29,9 +32,7 @@ class TestMap(TestCase):
     @mock.patch.object(requests, 'get', autospec=True)
     @mock.patch.object(img, 'imread', autospec=True)
     def test_init(self, mock_imread, mock_get):
-
-        default_map = Map(51.0, 1.0)
-
+        test_map = Map(51.0, 1.0)
         # Assert default parameters passed to requests get object
         mock_get.assert_called_with(
         "http://maps.googleapis.com/maps/api/staticmap?",
@@ -46,12 +47,16 @@ class TestMap(TestCase):
         )
 
         # Check StringIO object read in by imread
-        args, kwargs = mock_imread.call_args
-        self.assertTrue(isinstance(args[0], StringIO.StringIO))
-
+        call_args, call_kwargs = mock_imread.call_args
+        self.assertTrue(isinstance(call_args[0], StringIO.StringIO))
 
     def test_green(self):
-        pass
+            # Initialise a 3x3 array of pixels
+            pixel_array = np.zeros((3, 3, 3))
+            # All green pixels
+            pixel_array[:, :, 1] = 1
+            TestMap.mock_map.__setattr__('pixels', pixel_array)
+            self.assertTrue(TestMap.mock_map.green(1.1).all())
 
     def test_count_green(self):
         pass
