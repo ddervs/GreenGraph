@@ -5,15 +5,16 @@ from matplotlib import image as img
 
 class Map(object):
 
-    def __init__(self, lat, longitude, satellite=True,
+    def __init__(self, latitude, longitude, satellite=True,
                  zoom=10, size=(400, 400), sensor=False):
 
         base = "http://maps.googleapis.com/maps/api/staticmap?"
+
         params = dict(
                 sensor=str(sensor).lower(),
                 zoom=zoom,
                 size="x".join(map(str, size)),
-                center=",".join(map(str, (lat, longitude))),
+                center=",".join(map(str, (latitude, longitude))),
                 style="feature:all|element:labels|visibility:off"
         )
 
