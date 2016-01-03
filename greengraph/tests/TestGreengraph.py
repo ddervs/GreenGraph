@@ -4,23 +4,9 @@ from unittest import TestCase
 
 class TestGreengraph(TestCase):
 
-    @classmethod
-    def setuUpClass(cls):
-        """This method is run once for each class before any tests are run"""
-        pass
+    def __init__(self, *args, **kwargs):
 
-    @classmethod
-    def tearDownClass(cls):
-        """This method is run once for each class _after_ all tests are run"""
-        pass
-
-    def setUp(self):
-        """This method is run once before _each_ test method is executed"""
-        pass
-
-    def tearDown(self):
-        """This method is run once after _each_ test method is executed"""
-        pass
+        super(TestGreengraph, self).__init__(*args, **kwargs)
 
     def test_init(self):
         pass

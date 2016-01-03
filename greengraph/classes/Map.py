@@ -41,6 +41,6 @@ class Map(object):
 
         green = self.green(threshold)
         out = green[:, :, np.newaxis] * np.array([0, 1, 0])[np.newaxis, np.newaxis, :]
-        mybuffer = StringIO()
-        img.imsave(mybuffer, out, format='png')
-        return mybuffer.getvalue()
+        my_buffer = StringIO()
+        img.imsave(my_buffer, out, format='png')
+        return my_buffer.getvalue()
