@@ -51,12 +51,26 @@ class TestMap(TestCase):
         self.assertTrue(isinstance(call_args[0], StringIO.StringIO))
 
     def test_green(self):
-            # Initialise a 3x3 array of pixels
+
             pixel_array = np.zeros((3, 3, 3))
-            # All green pixels
+            test_threshold = 1.1
+
+            # Test green function with all green pixels
             pixel_array[:, :, 1] = 1
             TestMap.mock_map.__setattr__('pixels', pixel_array)
-            self.assertTrue(TestMap.mock_map.green(1.1).all())
+            self.assertTrue(TestMap.mock_map.green(test_threshold).all())
+
+            # Test green function with all red pixels
+            pixel_array[:, :, 1] = 0
+            pixel_array[:, :, 0] = 1
+            TestMap.mock_map.__setattr__('pixels', pixel_array)
+            self.assertFalse(TestMap.mock_map.green(test_threshold).all())
+
+            # Test green function with all blue pixels
+            pixel_array[:, :, 0] = 0
+            pixel_array[:, :, 2] = 1
+            TestMap.mock_map.__setattr__('pixels', pixel_array)
+            self.assertFalse(TestMap.mock_map.green(test_threshold).all())
 
     def test_count_green(self):
         pass
