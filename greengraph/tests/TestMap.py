@@ -17,7 +17,8 @@ class TestMap(TestCase):
             with mock.patch.object(img, 'imread') as mock_imread:
                 self.mock_map = Map(51.0, 1.0)
                 self.threshold = 1.1
-                self.pixel_array = np.zeros((3, 3, 3))
+                self.pixel_dim = 10
+                self.pixel_array = np.zeros((self.pixel_dim,  self.pixel_dim, 3))
                 self.mock_map.__setattr__('pixels', self.pixel_array)
 
     @mock.patch.object(requests, 'get', autospec=True)
@@ -61,15 +62,19 @@ class TestMap(TestCase):
         self.mock_map.__setattr__('pixels', self.pixel_array)
         self.assertFalse(self.mock_map.green(self.threshold).all())
 
-    @mock.patch.object(np, 'sum', autospec=True)
-    def test_count_green(self, mock_sum):
+    def test_count_green(self):
 
+        # Check all black array
+        self.pixel_array = np.zeros((self.pixel_dim,  self.pixel_dim, 3))
         self.mock_map.__setattr__('pixels', self.pixel_array)
+        sum_green = self.mock_map.count_green(self.threshold)
+        self.assertTrue(sum_green == 0)
 
-        # Check sum of numpy array
-        self.mock_map.count_green(self.threshold)
-        call_args, call_kwargs = mock_sum.call_args
-        self.assertTrue(isinstance(call_args[0], np.ndarray))
+        # Check all green array
+        self.pixel_array[:, :, 1] = 1
+        self.mock_map.__setattr__('pixels', self.pixel_array)
+        sum_green = self.mock_map.count_green(self.threshold)
+        self.assertTrue(sum_green == self.pixel_dim**2)
 
     @mock.patch.object(img, 'imsave', autospec=True)
     def test_show_green(self, mock_imsave):
@@ -81,3 +86,4 @@ class TestMap(TestCase):
         array_shape = call_args[1].shape
         self.assertTrue(len(array_shape) == 3)
         self.assertTrue(array_shape[2] == 3)
+

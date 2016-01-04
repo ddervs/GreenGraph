@@ -4,6 +4,7 @@ import Map
 
 
 class Greengraph(object):
+
     def __init__(self, start, end):
         self.start = start
         self.end = end
@@ -25,3 +26,4 @@ class Greengraph(object):
                     self.geolocate(self.start),
                     self.geolocate(self.end),
                     steps)]
+
