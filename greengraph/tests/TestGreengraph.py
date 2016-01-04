@@ -6,6 +6,8 @@ import yaml
 import os
 import numpy as np
 from greengraph.classes.Map import Map
+import requests
+from matplotlib import image as img
 
 class TestGreengraph(TestCase):
 
@@ -45,9 +47,11 @@ class TestGreengraph(TestCase):
                 # Check result as given in fixtures file
                 self.assertTrue((self.mock_greengraph.location_sequence(start, end, steps) == result).all())
 
+    @mock.patch.object(img, 'imread')
+    @mock.patch.object(requests, 'get')
     @mock.patch.object(Greengraph, 'geolocate')
     @mock.patch.object(Map, 'count_green')
-    def test_green_between(self, mock_count_green, mock_geolocate):
+    def test_green_between(self, mock_count_green, mock_geolocate, mock_get, mock_imread):
 
         with open(os.path.join(os.path.dirname(__file__), 'fixtures', 'green_between_fixtures.yaml')) as fixtures_file:
             fixtures = yaml.load(fixtures_file)
