@@ -45,11 +45,24 @@ class TestGreengraph(TestCase):
                 # Check result as given in fixtures file
                 self.assertTrue((self.mock_greengraph.location_sequence(start, end, steps) == result).all())
 
-    @mock.patch.object(Greengraph, 'geolocate', return_value=(0., 0.))
-    @mock.patch.object(Map, 'count_green', return_value=0.)
-    def test_green_between(self, mock_count_green, mock_geocode):
+    @mock.patch.object(Greengraph, 'geolocate')
+    @mock.patch.object(Map, 'count_green')
+    def test_green_between(self, mock_count_green, mock_geolocate):
 
-        steps = 10
-        greens = Greengraph(self.start, self.end).green_between(steps)
-        self.assertTrue(([0.] * steps == greens))
+        with open(os.path.join(os.path.dirname(__file__), 'fixtures', 'green_between_fixtures.yaml')) as fixtures_file:
+            fixtures = yaml.load(fixtures_file)
+            for fixture in fixtures:
+                start = fixture.pop('start')
+                end = fixture.pop('end')
+                steps = fixture.pop('steps')
+                start_location = fixture.pop('start_location')
+                end_location = fixture.pop('end_location')
+                green_counts = fixture.pop('green_counts')
 
+                # Tell mocks the output of geolocate() and count_green() methods for given input
+                mock_geolocate.side_effect = [start_location, end_location]
+                mock_count_green.side_effect = green_counts
+                # Number of green pixels for each step, i.e. what is plotted
+                greens = Greengraph(start, end).green_between(steps)
+                # Check that output is same as predicted
+                self.assertTrue(greens == green_counts)

@@ -3,9 +3,10 @@ import requests
 from StringIO import StringIO
 from matplotlib import image as img
 import geopy
+import yaml
 
 
-# First put in code needed for green_between code
+# First hard-code what is needed for correct output of green_between()
 class Map(object):
 
     def __init__(self, latitude, longitude, satellite=True,
@@ -65,6 +66,32 @@ class Greengraph(object):
                     self.geolocate(self.end),
                     steps)]
 
-my_graph = Greengraph('New York', 'London')
-steps = 10
-for location in
+
+# Now build fixtures method
+def build_fixture(start, end, steps):
+
+    my_graph = Greengraph(start, end)
+    locations = my_graph.location_sequence(
+                    my_graph.geolocate(my_graph.start),
+                    my_graph.geolocate(my_graph.end),
+                    steps)
+
+    green_counts = [None]*len(locations)
+    for i in range(0, len(locations)):
+        location = locations[i]
+        green_counts[i] = Map(*location).count_green()
+
+    start_location = my_graph.geolocate(my_graph.start)
+    end_location = my_graph.geolocate(my_graph.end)
+
+    return eval(str(dict(start=start, end=end, start_location=start_location, end_location=end_location,
+                         green_counts=green_counts, steps=steps)))
+
+
+# Write YAML file
+with open('green_between_fixtures.yaml', 'w') as file_to_write:
+    file_to_write.write(yaml.dump([build_fixture('Paris', 'Chicago', 10)]))
+    file_to_write.write(yaml.dump([build_fixture('Matlab', 'Bangkok', 10)]))
+    file_to_write.write(yaml.dump([build_fixture('London', 'Bristol', 10)]))
+
+

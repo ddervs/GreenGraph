@@ -1,0 +1,20 @@
+- end: Chicago
+  end_location: !!python/tuple [41.8781136, -87.6297982]
+  green_counts: [85629, 0, 0, 0, 0, 0, 0, 0, 158460, 19918]
+  start: Paris
+  start_location: !!python/tuple [48.856614, 2.3522219]
+  steps: 10
+- end: Bangkok
+  end_location: !!python/tuple [13.7563309, 100.5017651]
+  green_counts: [159154, 89588, 159261, 159279, 114747, 159244, 76005, 159263, 147740,
+    109976]
+  start: Matlab
+  start_location: !!python/tuple [23.3375202, 90.75240360000001]
+  steps: 10
+- end: Bristol
+  end_location: !!python/tuple [51.454513, -2.58791]
+  green_counts: [106719, 124645, 150402, 157323, 158212, 158500, 158605, 158418, 157003,
+    137793]
+  start: London
+  start_location: !!python/tuple [51.5073509, -0.1277583]
+  steps: 10
